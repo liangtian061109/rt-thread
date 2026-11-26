@@ -2,6 +2,29 @@ menuconfig RT_USING_PIN
     bool "Using Generic GPIO device drivers"
     default y
 
+if RT_USING_PIN
+    config RT_USING_PIN_CMD
+        bool "Enable PIN MSH command"
+        depends on RT_USING_FINSH
+        default y
+        help
+            Enable the "pin" MSH command for GPIO debugging from the FinSH
+            console.
+
+            When enabled, dev_pin.c compiles and exports the "pin" shell
+            command supporting pin number lookup (num), mode configuration
+            (mode), input level reading (read), and output level driving
+            (write).
+
+            Requires RT_USING_PIN and RT_USING_FINSH. Using port names (such
+            as PA.0) also requires the BSP pin driver to implement the
+            pin_get callback in struct rt_pin_ops.
+
+            Disable this option on Flash-constrained targets to strip the MSH
+            command handler and usage strings while keeping all C-level PIN
+            driver APIs available.
+endif
+
 config RT_PIN_PL061
     bool "ARM PL061"
     depends on RT_USING_DM

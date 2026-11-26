@@ -173,7 +173,7 @@ rt_base_t rt_pin_get(const char *name)
     return _hw_pin.ops->pin_get(name);
 }
 
-#ifdef RT_USING_FINSH
+#if defined(RT_USING_FINSH) && defined(RT_USING_PIN_CMD)
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -380,4 +380,4 @@ static void _pin_cmd(int argc, char *argv[])
     }
 }
 MSH_CMD_EXPORT_ALIAS(_pin_cmd, pin, pin [option]);
-#endif /* RT_USING_FINSH */
+#endif /* defined(RT_USING_FINSH) && defined(RT_USING_PIN_CMD) */
